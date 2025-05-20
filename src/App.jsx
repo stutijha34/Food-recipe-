@@ -13,18 +13,26 @@ import OrderHistory from './pages/OrderHistory';
 
 function App() {
   const [cart, setCart] = useState([]);
-  const [orderHistory, setOrderHistory] = useState([]);
+const [orderHistory, setOrderHistory] = useState(() => {
+  const saved = localStorage.getItem('orderHistory');
+  return saved ? JSON.parse(saved) : [];
+});
+
 
   // ✅ Load order history from localStorage on app load
-  useEffect(() => {
-    const savedHistory = JSON.parse(localStorage.getItem('orderHistory'));
-    if (savedHistory) setOrderHistory(savedHistory);
-  }, []);
+useEffect(() => {
+  const savedHistory = localStorage.getItem('orderHistory');
+  if (savedHistory) {
+    setOrderHistory(JSON.parse(savedHistory));
+  }
+}, []);
 
-  // ✅ Save to localStorage whenever it changes
-  useEffect(() => {
-    localStorage.setItem('orderHistory', JSON.stringify(orderHistory));
-  }, [orderHistory]);
+useEffect(() => {
+  localStorage.setItem('orderHistory', JSON.stringify(orderHistory));
+}, [orderHistory]);
+
+
+
 
   return (
     <AuthProvider>
