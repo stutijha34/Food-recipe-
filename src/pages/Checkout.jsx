@@ -22,8 +22,13 @@ function Checkout({ cart, setCart, setOrderHistory }) {
 
       setOrderHistory(prevHistory => [...prevHistory, newOrder]);
       setCart([]);
+       // ✅ Immediately persist to localStorage
+      const prevOrders = JSON.parse(localStorage.getItem('orderHistory') || '[]');
+      localStorage.setItem('orderHistory', JSON.stringify([...prevOrders, newOrder]));
+      localStorage.setItem('cart', JSON.stringify([]));
     }
   }, [cart, setCart, setOrderHistory]);
+  
 
   return (
     <div className="checkout-page">

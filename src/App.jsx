@@ -12,7 +12,11 @@ import Checkout from './pages/Checkout';
 import OrderHistory from './pages/OrderHistory';
 
 function App() {
-  const [cart, setCart] = useState([]);
+  const [cart, setCart] = useState(() => {
+  const savedCart = localStorage.getItem('cart');
+  return savedCart ? JSON.parse(savedCart) : [];
+});
+
 const [orderHistory, setOrderHistory] = useState(() => {
   const saved = localStorage.getItem('orderHistory');
   return saved ? JSON.parse(saved) : [];
@@ -27,6 +31,12 @@ useEffect(() => {
   }
 }, []);
 
+// ✅ Correct way to persist cart changes
+useEffect(() => {
+  localStorage.setItem('cart', JSON.stringify(cart));
+}, [cart]);
+
+// ✅ Correct way to persist orderHistory changes
 useEffect(() => {
   localStorage.setItem('orderHistory', JSON.stringify(orderHistory));
 }, [orderHistory]);
