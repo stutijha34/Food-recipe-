@@ -28,7 +28,7 @@ function Checkout({ cart, setCart, setOrderHistory }) {
       localStorage.setItem('cart', JSON.stringify([]));
     }
   }, [cart, setCart, setOrderHistory]);
-  
+    
 
   return (
     <div className="checkout-page">
